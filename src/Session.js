@@ -1,5 +1,6 @@
 import React from 'react'
 import VideoAnnotator from './VideoAnnotator'
+import './Session.css'
 
 const URL_TEXT = "URL"
 const URL_ID = "url"
@@ -72,19 +73,28 @@ class Session extends React.Component {
                 <VideoAnnotator video_id={getYTVideoId(this.state.video_url)} />
             )
         }
+
         return (
             <div className="session">
                 <div className="url-label">
                     <label>{URL_TEXT}</label>
                 </div>
                 <div className="url">
-                    <input id={URL_ID} label={URL_TEXT}
+                    <input
+                        id={URL_ID}
+                        label={URL_TEXT}
                         variant="outlined"
                         onChange={this.updateInput}
-                        value={this.state.video_url} />
+                        value={this.state.video_url}
+                    />
                 </div>
                 <div className="load">
-                    <button variant="contained" onClick={this.handleLoadVideo}>{LOAD_VIDEO_TEXT}</button>
+                    <button
+                        variant="contained"
+                        onClick={this.handleLoadVideo}
+                    >
+                        {LOAD_VIDEO_TEXT}
+                    </button>
                 </div>
             </div>
         );
