@@ -1,5 +1,6 @@
 import React from 'react';
 import YouTube from 'react-youtube';
+import ChatBot from './ChatBot';
 
 const VIDEO_PLAYER_ID = "video-player"
 
@@ -18,6 +19,9 @@ class VideoAnnotator extends React.Component {
 
             // The tile of the video being annotated.
             video_title: '',
+
+            // Set to true while a video's bot is being loaded.
+            loading_bot: true,
         }
 
         console.log("video_id: ", this.props.video_id)
@@ -54,6 +58,11 @@ class VideoAnnotator extends React.Component {
                     id={VIDEO_PLAYER_ID}
                     onReady={this.onReady}
                 />
+                {this.state.loading_bot ? (
+                    <h2>Loading Bot...</h2>
+                ) : (
+                    <ChatBot video_id={this.props.video_id} />
+                )}
             </div>
         )
     }
