@@ -1,6 +1,8 @@
 import React from 'react';
+import Constants from './Constants.js';
 import YouTube from 'react-youtube';
-import ChatBot from './ChatBot';
+import ChatBot from './ChatBot.js';
+import { handleFetchErrors } from './Helpers.js';
 
 const VIDEO_PLAYER_ID = "video-player"
 
@@ -25,7 +27,38 @@ class VideoAnnotator extends React.Component {
         }
 
         console.log("video_id: ", this.props.video_id)
+        this.createBot = this.createBot.bind(this)
         this.onReady = this.onReady.bind(this)
+    }
+
+    createBot() {
+        let route_to_fetch = Constants.SERVER + Constants.SERVER_ROUTE_CREATE_BOT
+        console.log('Fetching: ', route_to_fetch)
+        fetch(route_to_fetch,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ video_id: this.props.video_id }),
+            }
+        ).then(handleFetchErrors)
+            .then(response => {
+                console.log("handleCreateBot response: ", response)
+                return response.json()
+            }
+            )
+            .then(data => {
+                this.setState(
+                    {
+                        loading_bot: false
+                    }
+                )
+            })
+            .catch(error => {
+                console.log("Request error: " + error)
+            })
+
     }
 
     // Called when the YouTube player is ready.
@@ -39,6 +72,12 @@ class VideoAnnotator extends React.Component {
             }
         )
         player = event.target
+    }
+
+    componentDidMount() {
+        // Ask to create bot once the video player is ready, else the user may start asking
+        // questions before the video is playing (which is bad UX).
+        this.createBot()
     }
 
     render() {
