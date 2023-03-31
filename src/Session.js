@@ -76,6 +76,9 @@ class Session extends React.Component {
 
         return (
             <div className="session">
+                <div className="title">
+                    <h1>Create A Custom Chat Bot For YouTube Videos</h1>
+                </div>
                 <div className="url-label">
                     <label>{URL_TEXT}</label>
                 </div>
