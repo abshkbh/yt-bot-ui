@@ -1,17 +1,10 @@
 import React from 'react'
 import Constants from './Constants.js'
+import { handleFetchErrors } from './Helpers.js'
 
 const ASK_QUESTION_BUTTON_LABEL = "ASK QUESTION"
 const QUESTION_FIELD_ID = "question"
 const RESPONSE_FIELD_ID = "response"
-
-// Takes in a HTTP |response| and throws an error if it's not 200 else returns |response| as is.
-function handleFetchErrors(response) {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response;
-}
 
 class ChatBot extends React.Component {
     constructor(props) {
@@ -47,11 +40,7 @@ class ChatBot extends React.Component {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'true',
                 },
-                credentials: "include",
-                mode: "cors",
-                withCredentials: true,
                 body: JSON.stringify({ video_id: this.props.video_id, query: this.state.question_content }),
             }
         ).then(handleFetchErrors)
