@@ -6,14 +6,6 @@ const VIDEO_PLAYER_ID = "video-player"
 // TODO: Figure out a way to make this part of |state|.
 let player = null
 
-// Takes in a HTTP |response| and throws an error if it's not 200 else returns |response| as is.
-function handleFetchErrors(response) {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response;
-}
-
 // This component -
 // - Loads a Youtube player with the given |video_id|.
 // - Adds option to ask a bot based on the Video questions.
