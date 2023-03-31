@@ -1,6 +1,7 @@
 import React from 'react'
 import Constants from './Constants.js'
 import { handleFetchErrors } from './Helpers.js'
+import './ChatBot.css'
 
 const ASK_QUESTION_BUTTON_LABEL = "ASK QUESTION"
 const QUESTION_FIELD_ID = "question"
@@ -69,17 +70,19 @@ class ChatBot extends React.Component {
 
     render() {
         return (
-            <div>
-                <button onClick={this.handleAskQuestion}>{ASK_QUESTION_BUTTON_LABEL}</button>
-                <input id={QUESTION_FIELD_ID} onChange={this.updateInput} />
+            <div className="chatbot-container">
+                <input id={QUESTION_FIELD_ID} onChange={this.updateInput} className="input-box" placeholder="Ask a question..." />
+                <button onClick={this.handleAskQuestion} className="ask-question-button">{ASK_QUESTION_BUTTON_LABEL}</button>
                 <textarea
                     id={RESPONSE_FIELD_ID}
                     className="output-box"
                     value={this.state.response_content}
                     onChange={this.updateInput}
+                    placeholder="Response..."
+                    readOnly
                 />
             </div>
-        )
+        );
     }
 }
 
