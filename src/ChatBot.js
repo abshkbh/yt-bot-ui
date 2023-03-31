@@ -14,6 +14,7 @@ class ChatBot extends React.Component {
             response_content: ''
         }
 
+        this.updateInput = this.updateInput.bind(this)
         this.handleAskQuestion = this.handleAskQuestion.bind(this)
     }
 
@@ -26,6 +27,10 @@ class ChatBot extends React.Component {
         if (id === QUESTION_FIELD_ID) {
             this.setState({
                 question_content: value
+            })
+        } else if (id === RESPONSE_FIELD_ID) {
+            this.setState({
+                response_content: value
             })
         } else {
             console.log("Unrecognized input field")
@@ -53,7 +58,7 @@ class ChatBot extends React.Component {
                 console.log("handleAskQuestion data: ", data)
                 this.setState(
                     {
-                        response: data.response
+                        response_content: data.response
                     }
                 )
             })
@@ -67,7 +72,12 @@ class ChatBot extends React.Component {
             <div>
                 <button onClick={this.handleAskQuestion}>{ASK_QUESTION_BUTTON_LABEL}</button>
                 <input id={QUESTION_FIELD_ID} onChange={this.updateInput} />
-                <text id={RESPONSE_FIELD_ID}></text>
+                <textarea
+                    id={RESPONSE_FIELD_ID}
+                    className="output-box"
+                    value={this.state.response_content}
+                    onChange={this.updateInput}
+                />
             </div>
         )
     }
