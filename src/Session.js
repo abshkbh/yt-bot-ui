@@ -1,8 +1,21 @@
 import React from 'react'
+import VideoAnnotator from './VideoAnnotator'
 
 const URL_TEXT = "URL"
 const URL_ID = "url"
 const LOAD_VIDEO_TEXT = "LOAD YOUTUBE VIDEO URL"
+
+// Parse the Id of the YouTube video. For e.g. for this Youtube
+// URL https://www.youtube.com/watch?v=TcAAARgLZ8M the video id will be "TcAAARgLZ8M".
+function getYTVideoId(url) {
+    var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match && match[2].length === 11) {
+        return match[2];
+    } else {
+        return ''
+    }
+}
 
 // This component is loaded after a user is logged in.
 //
@@ -14,6 +27,9 @@ class Session extends React.Component {
         this.state = {
             // URL of the video to annotate.
             video_url: '',
+
+            // Whether to load video or not.
+            load_video: false,
         }
 
         this.updateInput = this.updateInput.bind(this)
@@ -42,10 +58,20 @@ class Session extends React.Component {
             console.log('Video URL empty')
             return
         }
-        //TODO: Call the YT player UI.
+
+        this.setState(
+            {
+                load_video: true
+            }
+        )
     }
 
     render() {
+        if (this.state.load_video) {
+            return (
+                <VideoAnnotator video_id={getYTVideoId(this.state.video_url)} />
+            )
+        }
         return (
             <div className="session">
                 <div className="url-label">
@@ -58,7 +84,7 @@ class Session extends React.Component {
                         value={this.state.video_url} />
                 </div>
                 <div className="load">
-                    <button variant="contained" onClick={this.han}>{LOAD_VIDEO_TEXT}</button>
+                    <button variant="contained" onClick={this.handleLoadVideo}>{LOAD_VIDEO_TEXT}</button>
                 </div>
             </div>
         );
